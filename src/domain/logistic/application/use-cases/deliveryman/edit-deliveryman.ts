@@ -59,7 +59,7 @@ export class EditDeliverymanUseCase {
     }
 
     const deliverymanWithSameEmail =
-      await this.deliverymansRepository.findByEmail(cpf)
+      await this.deliverymansRepository.findByEmail(email)
 
     if (deliverymanWithSameEmail) {
       return failure(new DeliverymanAlreadyExistsError(email))

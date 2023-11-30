@@ -1,4 +1,3 @@
-import { FakeHasher } from 'test/cryptography/fake-hasher'
 import { InMemoryDeliverymansRepository } from 'test/repositories/in-memory-deliverymans-repository'
 import { makeDeliveryman } from 'test/factories/make-deliveryman'
 import { EditDeliverymanUseCase } from './edit-deliveryman'
@@ -7,7 +6,6 @@ import { makeAdministrator } from 'test/factories/make-administrator'
 
 let inMemoryDeliverymansRepository: InMemoryDeliverymansRepository
 let inMemoryAdministratorsRepository: InMemoryAdministratorsRepository
-let fakeHasher: FakeHasher
 
 let sut: EditDeliverymanUseCase
 
@@ -15,12 +13,10 @@ describe('Edit Deliveryman', () => {
   beforeEach(() => {
     inMemoryDeliverymansRepository = new InMemoryDeliverymansRepository()
     inMemoryAdministratorsRepository = new InMemoryAdministratorsRepository()
-    fakeHasher = new FakeHasher()
 
     sut = new EditDeliverymanUseCase(
       inMemoryAdministratorsRepository,
       inMemoryDeliverymansRepository,
-      fakeHasher,
     )
   })
 
