@@ -1,42 +1,41 @@
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
+import { HashGenerator } from '../../cryptography/hash-generator'
 import { AdministratorsRepository } from '../../repositories/administrators-repository'
 import { DeliverymansRepository } from '../../repositories/deliverymans-repository'
 import { DeliverymanAlreadyExistsError } from './errors/deliveryman-already-exists-error'
 import { Deliveryman } from '@/domain/logistic/enterprise/entities/deliveryman'
 import { Either, failure, success } from '@/core/either'
+import { PasswordsNotEqualsError } from './errors/passwords-not-equals-error'
 
-interface EditDeliverymanUseCaseRequest {
+interface ChangePasswordDeliverymanUseCaseRequest {
   adminId: string
   deliverymanId: string
-  email: string
-  cpf: string
-  name?: string
-  lastname?: string
-  phone?: string
+  password: string
+  confirmPassword: string
 }
 
-type EditDeliverymanUseCaseResponse = Either<
-  ResourceNotFoundError | DeliverymanAlreadyExistsError,
+type ChangePasswordDeliverymanUseCaseResponse = Either<
+  | ResourceNotFoundError
+  | DeliverymanAlreadyExistsError
+  | PasswordsNotEqualsError,
   {
     deliveryman: Deliveryman
   }
 >
 
-export class EditDeliverymanUseCase {
+export class ChangePasswordDeliverymanUseCase {
   constructor(
     private administratorsRepository: AdministratorsRepository,
     private deliverymansRepository: DeliverymansRepository,
+    private hashGenerator: HashGenerator,
   ) {}
 
   async execute({
     adminId,
     deliverymanId,
-    name,
-    lastname,
-    email,
-    cpf,
-    phone,
-  }: EditDeliverymanUseCaseRequest): Promise<EditDeliverymanUseCaseResponse> {
+    password,
+    confirmPassword,
+  }: ChangePasswordDeliverymanUseCaseRequest): Promise<ChangePasswordDeliverymanUseCaseResponse> {
     const deliveryman =
       await this.deliverymansRepository.findById(deliverymanId)
 
@@ -51,26 +50,12 @@ export class EditDeliverymanUseCase {
       return failure(new ResourceNotFoundError())
     }
 
-    const deliverymanWithSameIdentifier =
-      await this.deliverymansRepository.findByIdentifier(cpf)
-
-    if (deliverymanWithSameIdentifier) {
-      return failure(new DeliverymanAlreadyExistsError(cpf))
+    if (password !== confirmPassword) {
+      return failure(new PasswordsNotEqualsError())
     }
 
-    const deliverymanWithSameEmail =
-      await this.deliverymansRepository.findByEmail(cpf)
-
-    if (deliverymanWithSameEmail) {
-      return failure(new DeliverymanAlreadyExistsError(email))
-    }
-
-    deliveryman.name = name !== undefined ? name : deliveryman.name
-    deliveryman.lastname =
-      lastname !== undefined ? lastname : deliveryman.lastname
-    deliveryman.email = email
-    deliveryman.cpf = cpf
-    deliveryman.phone = phone !== undefined ? phone : deliveryman.phone
+    const hashedPassword = await this.hashGenerator.hash(password)
+    deliveryman.password = hashedPassword
 
     await this.deliverymansRepository.save(deliveryman)
 
