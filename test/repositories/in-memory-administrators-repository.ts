@@ -16,6 +16,16 @@ export class InMemoryAdministratorsRepository
     return administrator
   }
 
+  async findByCPF(cpf: string): Promise<Administrator | null> {
+    const administrator = this.items.find((item) => item.cpf === cpf)
+
+    if (!administrator) {
+      return null
+    }
+
+    return administrator
+  }
+
   async findByEmail(email: string): Promise<Administrator | null> {
     const administrator = this.items.find((item) => item.email === email)
 
