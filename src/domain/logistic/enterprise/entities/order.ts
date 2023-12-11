@@ -1,7 +1,8 @@
-import { Entity } from '@/core/entities/entity'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
 import { OrderAttachment } from './order-attachment'
+import { AggregateRoot } from '@/core/entities/aggregate-root'
+import { ChangeStatusEvent } from '../events/change-status-events'
 
 export interface OrderProps {
   recipientId: UniqueEntityID
@@ -17,7 +18,7 @@ export interface OrderProps {
   updatedAt?: Date | null
 }
 
-export class Order extends Entity<OrderProps> {
+export class Order extends AggregateRoot<OrderProps> {
   get recipientId() {
     return this.props.recipientId
   }
@@ -47,6 +48,8 @@ export class Order extends Entity<OrderProps> {
   set status(status: string) {
     this.props.status = status
     this.touch()
+
+    this.addDomainEvent(new ChangeStatusEvent(this))
   }
 
   get photo() {

@@ -7,6 +7,7 @@ import { Order } from '@/domain/logistic/enterprise/entities/order'
 import { InMemoryOrderAttachmentRepository } from './in-memory-order-attachment-repository'
 import { getDistanceBetweenCoordinates } from 'test/utils/get-distance-between-coordinates'
 import { InMemoryRecipientsRepository } from './in-memory-recipients-repository'
+import { DomainEvents } from '@/core/events/domain-events'
 
 export class InMemoryOrdersRepository implements OrdersRepository {
   public items: Order[] = []
@@ -97,6 +98,8 @@ export class InMemoryOrdersRepository implements OrdersRepository {
     ) {
       await this.orderAttachmentRepository.create(order.photo)
     }
+
+    DomainEvents.dispatchEventsForAggregate(order.id)
   }
 
   async delete(order: Order): Promise<void> {
