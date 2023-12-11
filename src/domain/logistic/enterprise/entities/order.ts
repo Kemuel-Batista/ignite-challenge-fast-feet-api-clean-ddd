@@ -1,16 +1,18 @@
 import { Entity } from '@/core/entities/entity'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
+import { OrderAttachment } from './order-attachment'
 
 export interface OrderProps {
   recipientId: UniqueEntityID
   deliverymanId: UniqueEntityID
   name: string
   status: string
-  photo?: string | null
+  photo?: OrderAttachment | null
   postedAt?: Date | null
   retiredAt?: Date | null
-  deliveryAt?: Date | null
+  returnedAt?: Date | null
+  deliveredAt?: Date | null
   createdAt: Date
   updatedAt?: Date | null
 }
@@ -22,6 +24,11 @@ export class Order extends Entity<OrderProps> {
 
   get deliverymanId() {
     return this.props.deliverymanId
+  }
+
+  set deliverymanId(id: UniqueEntityID) {
+    this.props.deliverymanId = id
+    this.touch()
   }
 
   get name() {
@@ -46,7 +53,7 @@ export class Order extends Entity<OrderProps> {
     return this.props.photo
   }
 
-  set photo(photo: string | null | undefined) {
+  set photo(photo: OrderAttachment | null | undefined) {
     this.props.photo = photo
     this.touch()
   }
@@ -55,12 +62,36 @@ export class Order extends Entity<OrderProps> {
     return this.props.postedAt
   }
 
+  set postedAt(date: Date | null | undefined) {
+    this.props.postedAt = date
+    this.touch()
+  }
+
   get retiredAt() {
     return this.props.retiredAt
   }
 
-  get deliveryAt() {
-    return this.props.deliveryAt
+  set retiredAt(date: Date | null | undefined) {
+    this.props.postedAt = date
+    this.touch()
+  }
+
+  get returnedAt() {
+    return this.props.returnedAt
+  }
+
+  set returnedAt(date: Date | null | undefined) {
+    this.props.postedAt = date
+    this.touch()
+  }
+
+  get deliveredAt() {
+    return this.props.deliveredAt
+  }
+
+  set deliveredAt(date: Date | null | undefined) {
+    this.props.postedAt = date
+    this.touch()
   }
 
   get createdAt() {
@@ -82,7 +113,7 @@ export class Order extends Entity<OrderProps> {
     const order = new Order(
       {
         ...props,
-        status: props.status ?? 'A',
+        status: props.status ?? '',
         createdAt: props.createdAt ?? new Date(),
       },
       id,

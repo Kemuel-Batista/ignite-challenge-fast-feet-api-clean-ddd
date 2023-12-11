@@ -6,16 +6,21 @@ import { makeRecipient } from 'test/factories/make-recipient'
 import { InMemoryRecipientsRepository } from 'test/repositories/in-memory-recipients-repository'
 import { makeOrder } from 'test/factories/make-order'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
+import { InMemoryOrderAttachmentRepository } from 'test/repositories/in-memory-order-attachment-repository'
 
 let inMemoryDeliverymansRepository: InMemoryDeliverymansRepository
 let inMemoryOrdersRepository: InMemoryOrdersRepository
 let inMemoryRecipientsRepository: InMemoryRecipientsRepository
+let inMemoryOrderAttachmentRepository: InMemoryOrderAttachmentRepository
 let sut: FetchOrdersDeliverymansUseCase
 
 describe('Fetch Orders Deliverymans', () => {
   beforeEach(() => {
     inMemoryDeliverymansRepository = new InMemoryDeliverymansRepository()
-    inMemoryOrdersRepository = new InMemoryOrdersRepository()
+    inMemoryOrderAttachmentRepository = new InMemoryOrderAttachmentRepository()
+    inMemoryOrdersRepository = new InMemoryOrdersRepository(
+      inMemoryOrderAttachmentRepository,
+    )
     inMemoryRecipientsRepository = new InMemoryRecipientsRepository()
 
     sut = new FetchOrdersDeliverymansUseCase(

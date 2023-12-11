@@ -1,9 +1,14 @@
 import { PaginationParams } from '@/core/repositories/paginations-params'
 import { OrdersRepository } from '@/domain/logistic/application/repositories/orders-repository'
 import { Order } from '@/domain/logistic/enterprise/entities/order'
+import { InMemoryOrderAttachmentRepository } from './in-memory-order-attachment-repository'
 
 export class InMemoryOrdersRepository implements OrdersRepository {
   public items: Order[] = []
+
+  constructor(
+    private orderAttachmentRepository: InMemoryOrderAttachmentRepository,
+  ) {}
 
   async findById(id: string): Promise<Order | null> {
     const order = this.items.find((item) => item.id.toString() === id)
@@ -43,6 +48,14 @@ export class InMemoryOrdersRepository implements OrdersRepository {
     const itemIndex = this.items.findIndex((item) => item.id === order.id)
 
     this.items[itemIndex] = order
+
+    if (
+      order.status === 'E' &&
+      order.photo !== null &&
+      order.photo !== undefined
+    ) {
+      await this.orderAttachmentRepository.create(order.photo)
+    }
   }
 
   async delete(order: Order): Promise<void> {

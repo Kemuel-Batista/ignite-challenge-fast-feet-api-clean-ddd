@@ -11,17 +11,22 @@ import { InMemoryRecipientsRepository } from 'test/repositories/in-memory-recipi
 import { InMemoryDeliverymansRepository } from 'test/repositories/in-memory-deliverymans-repository'
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
+import { InMemoryOrderAttachmentRepository } from 'test/repositories/in-memory-order-attachment-repository'
 
 let inMemoryOrdersRepository: InMemoryOrdersRepository
 let inMemoryRecipientsRepository: InMemoryRecipientsRepository
 let inMemoryAdministratorsRepository: InMemoryAdministratorsRepository
 let inMemoryDeliverymansRepository: InMemoryDeliverymansRepository
+let inMemoryOrderAttachmentRepository: InMemoryOrderAttachmentRepository
 
 let sut: EditOrderUseCase
 
 describe('Edit Order', () => {
   beforeEach(() => {
-    inMemoryOrdersRepository = new InMemoryOrdersRepository()
+    inMemoryOrderAttachmentRepository = new InMemoryOrderAttachmentRepository()
+    inMemoryOrdersRepository = new InMemoryOrdersRepository(
+      inMemoryOrderAttachmentRepository,
+    )
     inMemoryRecipientsRepository = new InMemoryRecipientsRepository()
     inMemoryDeliverymansRepository = new InMemoryDeliverymansRepository()
     inMemoryAdministratorsRepository = new InMemoryAdministratorsRepository()

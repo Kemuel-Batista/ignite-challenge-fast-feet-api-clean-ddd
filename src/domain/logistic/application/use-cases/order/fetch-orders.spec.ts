@@ -3,14 +3,19 @@ import { InMemoryOrdersRepository } from 'test/repositories/in-memory-orders-rep
 import { InMemoryAdministratorsRepository } from 'test/repositories/in-memory-administrators-repository'
 import { makeAdministrator } from 'test/factories/make-administrator'
 import { makeOrder } from 'test/factories/make-order'
+import { InMemoryOrderAttachmentRepository } from 'test/repositories/in-memory-order-attachment-repository'
 
 let inMemoryOrdersRepository: InMemoryOrdersRepository
 let inMemoryAdministratorsRepository: InMemoryAdministratorsRepository
+let inMemoryOrderAttachmentRepository: InMemoryOrderAttachmentRepository
 let sut: FetchOrdersUseCase
 
 describe('Fetch Orders Use Case', () => {
   beforeEach(() => {
-    inMemoryOrdersRepository = new InMemoryOrdersRepository()
+    inMemoryOrderAttachmentRepository = new InMemoryOrderAttachmentRepository()
+    inMemoryOrdersRepository = new InMemoryOrdersRepository(
+      inMemoryOrderAttachmentRepository,
+    )
     inMemoryAdministratorsRepository = new InMemoryAdministratorsRepository()
     sut = new FetchOrdersUseCase(
       inMemoryAdministratorsRepository,

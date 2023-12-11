@@ -9,16 +9,20 @@ import { makeAdministrator } from 'test/factories/make-administrator'
 import { makeDeliveryman } from 'test/factories/make-deliveryman'
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
+import { InMemoryOrderAttachmentRepository } from 'test/repositories/in-memory-order-attachment-repository'
 
 let inMemoryOrdersRepository: InMemoryOrdersRepository
 let inMemoryRecipientsRepository: InMemoryRecipientsRepository
 let inMemoryAdministratorsRepository: InMemoryAdministratorsRepository
 let inMemoryDeliverymansRepository: InMemoryDeliverymansRepository
+let inMemoryOrderAttachmentRepository: InMemoryOrderAttachmentRepository
 let sut: CreateOrderUseCase
 
 describe('Create Order Use Case', () => {
   beforeEach(() => {
-    inMemoryOrdersRepository = new InMemoryOrdersRepository()
+    inMemoryOrdersRepository = new InMemoryOrdersRepository(
+      inMemoryOrderAttachmentRepository,
+    )
     inMemoryRecipientsRepository = new InMemoryRecipientsRepository()
     inMemoryDeliverymansRepository = new InMemoryDeliverymansRepository()
     inMemoryAdministratorsRepository = new InMemoryAdministratorsRepository()
