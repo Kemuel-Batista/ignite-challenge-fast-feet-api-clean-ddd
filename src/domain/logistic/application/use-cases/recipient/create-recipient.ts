@@ -63,15 +63,13 @@ export class CreateRecipientUseCase {
       name,
       email,
       phone,
-      address: {
-        street,
-        number,
-        city,
-        state,
-        zipcode,
-        latitude,
-        longitude,
-      },
+      street,
+      number,
+      city,
+      state,
+      zipcode,
+      latitude,
+      longitude,
     })
 
     await this.recipientsRepository.create(recipient)

@@ -23,11 +23,12 @@ let sut: EditOrderUseCase
 
 describe('Edit Order', () => {
   beforeEach(() => {
+    inMemoryRecipientsRepository = new InMemoryRecipientsRepository()
     inMemoryOrderAttachmentRepository = new InMemoryOrderAttachmentRepository()
     inMemoryOrdersRepository = new InMemoryOrdersRepository(
       inMemoryOrderAttachmentRepository,
+      inMemoryRecipientsRepository,
     )
-    inMemoryRecipientsRepository = new InMemoryRecipientsRepository()
     inMemoryDeliverymansRepository = new InMemoryDeliverymansRepository()
     inMemoryAdministratorsRepository = new InMemoryAdministratorsRepository()
 

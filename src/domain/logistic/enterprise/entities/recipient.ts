@@ -6,15 +6,13 @@ export interface RecipientProps {
   name: string
   email: string
   phone: string
-  address: {
-    street: string
-    number: string
-    city: string
-    state: string
-    zipcode: string
-    latitude: number
-    longitude: number
-  }
+  street: string
+  number: string
+  city: string
+  state: string
+  zipcode: string
+  latitude: number
+  longitude: number
   createdAt: Date
   updatedAt?: Date | null
 }
@@ -48,65 +46,65 @@ export class Recipient extends Entity<RecipientProps> {
   }
 
   get street() {
-    return this.props.address.street
+    return this.props.street
   }
 
   set street(street: string) {
-    this.props.address.street = street
+    this.props.street = street
     this.touch()
   }
 
   get number() {
-    return this.props.address.number
+    return this.props.number
   }
 
   set number(number: string) {
-    this.props.address.number = number
+    this.props.number = number
     this.touch()
   }
 
   get city() {
-    return this.props.address.city
+    return this.props.city
   }
 
   set city(city: string) {
-    this.props.address.city = city
+    this.props.city = city
     this.touch()
   }
 
   get state() {
-    return this.props.address.state
+    return this.props.state
   }
 
   set state(state: string) {
-    this.props.address.state = state
+    this.props.state = state
     this.touch()
   }
 
   get zipcode() {
-    return this.props.address.zipcode
+    return this.props.zipcode
   }
 
   set zipcode(zipcode: string) {
-    this.props.address.zipcode = zipcode
+    this.props.zipcode = zipcode
     this.touch()
   }
 
   get latitude() {
-    return this.props.address.latitude
+    return this.props.latitude
   }
 
   set latitude(latitude: number) {
-    this.props.address.latitude = latitude
+    this.props.latitude = latitude
     this.touch()
   }
 
   get longitude() {
-    return this.props.address.longitude
+    return this.props.longitude
   }
 
   set longitude(longitude: number) {
-    this.props.address.longitude = longitude
+    this.props.longitude = longitude
     this.touch()
   }
 

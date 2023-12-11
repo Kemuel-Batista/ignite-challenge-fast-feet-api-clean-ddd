@@ -20,6 +20,7 @@ describe('Fetch Orders Deliverymans', () => {
     inMemoryOrderAttachmentRepository = new InMemoryOrderAttachmentRepository()
     inMemoryOrdersRepository = new InMemoryOrdersRepository(
       inMemoryOrderAttachmentRepository,
+      inMemoryRecipientsRepository,
     )
     inMemoryRecipientsRepository = new InMemoryRecipientsRepository()
 

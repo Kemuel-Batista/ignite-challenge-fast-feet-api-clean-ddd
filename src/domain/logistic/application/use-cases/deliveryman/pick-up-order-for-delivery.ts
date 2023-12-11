@@ -3,21 +3,18 @@ import { DeliverymansRepository } from '../../repositories/deliverymans-reposito
 import { OrdersRepository } from '../../repositories/orders-repository'
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
-import { OrderAttachment } from '@/domain/logistic/enterprise/entities/order-attachment'
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 
-interface MarkOrderDeliveredUseCaseRequest {
+interface PickUpOrderForDeliveryUseCaseRequest {
   deliverymanId: string
-  attachmentId: string
   orderId: string
 }
 
-type MarkOrderDeliveredUseCaseResponse = Either<
+type PickUpOrderForDeliveryUseCaseResponse = Either<
   NotAllowedError | ResourceNotFoundError,
   null
 >
 
-export class MarkOrderDeliveredUseCase {
+export class PickUpOrderForDeliveryUseCase {
   constructor(
     private deliverymansRepository: DeliverymansRepository,
     private ordersRepository: OrdersRepository,
@@ -25,9 +22,8 @@ export class MarkOrderDeliveredUseCase {
 
   async execute({
     deliverymanId,
-    attachmentId,
     orderId,
-  }: MarkOrderDeliveredUseCaseRequest): Promise<MarkOrderDeliveredUseCaseResponse> {
+  }: PickUpOrderForDeliveryUseCaseRequest): Promise<PickUpOrderForDeliveryUseCaseResponse> {
     const deliveryman =
       await this.deliverymansRepository.findById(deliverymanId)
 
@@ -41,18 +37,9 @@ export class MarkOrderDeliveredUseCase {
       return failure(new ResourceNotFoundError())
     }
 
-    if (deliverymanId !== order.deliverymanId.toString()) {
-      return failure(new NotAllowedError())
-    }
-
-    const attachment = OrderAttachment.create({
-      attachmentId: new UniqueEntityID(attachmentId),
-      orderId: order.id,
-    })
-
-    order.photo = attachment
-    order.status = 'Entregue'
-    order.deliveredAt = new Date()
+    order.deliverymanId = deliveryman.id
+    order.status = 'R'
+    order.retiredAt = new Date()
 
     await this.ordersRepository.save(order)
 

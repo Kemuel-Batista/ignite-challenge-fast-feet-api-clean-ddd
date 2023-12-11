@@ -1,47 +1,53 @@
-import { InMemoryAdministratorsRepository } from 'test/repositories/in-memory-administrators-repository'
+import { InMemoryDeliverymansRepository } from 'test/repositories/in-memory-deliverymans-repository'
 import { InMemoryOrdersRepository } from 'test/repositories/in-memory-orders-repository'
-import { MarkOrderWaitingUseCase } from './mark-order-waiting'
-import { makeAdministrator } from 'test/factories/make-administrator'
+import { PickUpOrderForDeliveryUseCase } from './pick-up-order-for-delivery'
+import { makeDeliveryman } from 'test/factories/make-deliveryman'
 import { makeOrder } from 'test/factories/make-order'
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 import { InMemoryOrderAttachmentRepository } from 'test/repositories/in-memory-order-attachment-repository'
+import { InMemoryRecipientsRepository } from 'test/repositories/in-memory-recipients-repository'
 
-let inMemoryAdministratorsRepository: InMemoryAdministratorsRepository
+let inMemoryDeliverymansRepository: InMemoryDeliverymansRepository
 let inMemoryOrdersRepository: InMemoryOrdersRepository
 let inMemoryOrderAttachmentRepository: InMemoryOrderAttachmentRepository
+let inMemoryRecipientsRepository: InMemoryRecipientsRepository
+let sut: PickUpOrderForDeliveryUseCase
 
-let sut: MarkOrderWaitingUseCase
-
-describe('Mark Order Waiting', () => {
+describe('Pick up order', () => {
   beforeEach(() => {
-    inMemoryAdministratorsRepository = new InMemoryAdministratorsRepository()
+    inMemoryDeliverymansRepository = new InMemoryDeliverymansRepository()
+    inMemoryRecipientsRepository = new InMemoryRecipientsRepository()
     inMemoryOrderAttachmentRepository = new InMemoryOrderAttachmentRepository()
     inMemoryOrdersRepository = new InMemoryOrdersRepository(
       inMemoryOrderAttachmentRepository,
+      inMemoryRecipientsRepository,
     )
 
-    sut = new MarkOrderWaitingUseCase(
-      inMemoryAdministratorsRepository,
+    sut = new PickUpOrderForDeliveryUseCase(
+      inMemoryDeliverymansRepository,
       inMemoryOrdersRepository,
     )
   })
 
-  it('should be able to mark an order as waiting', async () => {
-    const administrator = makeAdministrator()
-    inMemoryAdministratorsRepository.items.push(administrator)
+  it('should be able to pick up an order', async () => {
+    const deliveryman = makeDeliveryman()
+    inMemoryDeliverymansRepository.items.push(deliveryman)
 
     const order = makeOrder()
     inMemoryOrdersRepository.items.push(order)
 
     const result = await sut.execute({
-      adminId: administrator.id.toString(),
+      deliverymanId: deliveryman.id.toString(),
       orderId: order.id.toString(),
     })
 
     expect(result.isSuccess()).toBe(true)
-    expect(inMemoryOrdersRepository.items[0].postedAt).not.toBeNull()
-    expect(inMemoryOrdersRepository.items[0].status).toBe('A')
+    expect(inMemoryOrdersRepository.items[0].retiredAt).not.toBeNull()
+    expect(inMemoryOrdersRepository.items[0].deliverymanId).toMatchObject({
+      value: deliveryman.id.toString(),
+    })
+    expect(inMemoryOrdersRepository.items[0].status).toBe('R')
   })
 
   it('should not be able to mark an order as waiting without authorization', async () => {
@@ -49,7 +55,7 @@ describe('Mark Order Waiting', () => {
     inMemoryOrdersRepository.items.push(order)
 
     const result = await sut.execute({
-      adminId: 'notexistent',
+      deliverymanId: 'notexistent',
       orderId: order.id.toString(),
     })
 
@@ -58,11 +64,11 @@ describe('Mark Order Waiting', () => {
   })
 
   it('should not be able to mark an order as waiting without order id', async () => {
-    const administrator = makeAdministrator()
-    inMemoryAdministratorsRepository.items.push(administrator)
+    const deliveryman = makeDeliveryman()
+    inMemoryDeliverymansRepository.items.push(deliveryman)
 
     const result = await sut.execute({
-      adminId: administrator.id.toString(),
+      deliverymanId: deliveryman.id.toString(),
       orderId: 'notexistent',
     })
 

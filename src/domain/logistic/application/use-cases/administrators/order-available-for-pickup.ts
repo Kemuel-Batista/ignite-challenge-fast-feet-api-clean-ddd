@@ -4,17 +4,17 @@ import { OrdersRepository } from '../../repositories/orders-repository'
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 
-interface MarkOrderWaitingUseCaseRequest {
+interface OrderAvailableForPickupUseCaseRequest {
   adminId: string
   orderId: string
 }
 
-type MarkOrderWaitingUseCaseResponse = Either<
+type OrderAvailableForPickupUseCaseResponse = Either<
   NotAllowedError | ResourceNotFoundError,
   null
 >
 
-export class MarkOrderWaitingUseCase {
+export class OrderAvailableForPickupUseCase {
   constructor(
     private administratorsRepository: AdministratorsRepository,
     private ordersRepository: OrdersRepository,
@@ -23,7 +23,7 @@ export class MarkOrderWaitingUseCase {
   async execute({
     adminId,
     orderId,
-  }: MarkOrderWaitingUseCaseRequest): Promise<MarkOrderWaitingUseCaseResponse> {
+  }: OrderAvailableForPickupUseCaseRequest): Promise<OrderAvailableForPickupUseCaseResponse> {
     const administrator = await this.administratorsRepository.findById(adminId)
 
     if (!administrator) {

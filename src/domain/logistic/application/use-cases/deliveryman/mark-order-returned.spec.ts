@@ -6,18 +6,22 @@ import { NotAllowedError } from '@/core/errors/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 import { MarkOrderReturnedUseCase } from './mark-order-returned'
 import { InMemoryOrderAttachmentRepository } from 'test/repositories/in-memory-order-attachment-repository'
+import { InMemoryRecipientsRepository } from 'test/repositories/in-memory-recipients-repository'
 
 let inMemoryDeliverymansRepository: InMemoryDeliverymansRepository
 let inMemoryOrdersRepository: InMemoryOrdersRepository
 let inMemoryOrderAttachmentRepository: InMemoryOrderAttachmentRepository
+let inMemoryRecipientsRepository: InMemoryRecipientsRepository
 let sut: MarkOrderReturnedUseCase
 
 describe('Mark order returned', () => {
   beforeEach(() => {
     inMemoryDeliverymansRepository = new InMemoryDeliverymansRepository()
+    inMemoryRecipientsRepository = new InMemoryRecipientsRepository()
     inMemoryOrderAttachmentRepository = new InMemoryOrderAttachmentRepository()
     inMemoryOrdersRepository = new InMemoryOrdersRepository(
       inMemoryOrderAttachmentRepository,
+      inMemoryRecipientsRepository,
     )
 
     sut = new MarkOrderReturnedUseCase(

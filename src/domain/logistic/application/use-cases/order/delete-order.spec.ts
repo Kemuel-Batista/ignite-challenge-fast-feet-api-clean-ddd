@@ -4,18 +4,22 @@ import { DeleteOrderUseCase } from './delete-order'
 import { InMemoryAdministratorsRepository } from 'test/repositories/in-memory-administrators-repository'
 import { makeAdministrator } from 'test/factories/make-administrator'
 import { InMemoryOrderAttachmentRepository } from 'test/repositories/in-memory-order-attachment-repository'
+import { InMemoryRecipientsRepository } from 'test/repositories/in-memory-recipients-repository'
 
 let inMemoryOrdersRepository: InMemoryOrdersRepository
 let inMemoryAdministratorsRepository: InMemoryAdministratorsRepository
 let inMemoryOrderAttachmentRepository: InMemoryOrderAttachmentRepository
+let inMemoryRecipientsRepository: InMemoryRecipientsRepository
 
 let sut: DeleteOrderUseCase
 
 describe('Delete Order', () => {
   beforeEach(() => {
+    inMemoryRecipientsRepository = new InMemoryRecipientsRepository()
     inMemoryOrderAttachmentRepository = new InMemoryOrderAttachmentRepository()
     inMemoryOrdersRepository = new InMemoryOrdersRepository(
       inMemoryOrderAttachmentRepository,
+      inMemoryRecipientsRepository,
     )
     inMemoryAdministratorsRepository = new InMemoryAdministratorsRepository()
 

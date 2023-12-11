@@ -7,18 +7,22 @@ import { makeOrder } from 'test/factories/make-order'
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import { InMemoryRecipientsRepository } from 'test/repositories/in-memory-recipients-repository'
 
 let inMemoryDeliverymansRepository: InMemoryDeliverymansRepository
 let inMemoryOrdersRepository: InMemoryOrdersRepository
 let inMemoryOrderAttachmentRepository: InMemoryOrderAttachmentRepository
+let inMemoryRecipientsRepository: InMemoryRecipientsRepository
 let sut: MarkOrderDeliveredUseCase
 
 describe('Mark order returned', () => {
   beforeEach(() => {
     inMemoryDeliverymansRepository = new InMemoryDeliverymansRepository()
+    inMemoryRecipientsRepository = new InMemoryRecipientsRepository()
     inMemoryOrderAttachmentRepository = new InMemoryOrderAttachmentRepository()
     inMemoryOrdersRepository = new InMemoryOrdersRepository(
       inMemoryOrderAttachmentRepository,
+      inMemoryRecipientsRepository,
     )
 
     sut = new MarkOrderDeliveredUseCase(
@@ -44,7 +48,7 @@ describe('Mark order returned', () => {
 
     expect(result.isSuccess()).toBe(true)
     expect(inMemoryOrdersRepository.items[0].deliveredAt).not.toBeNull()
-    expect(inMemoryOrdersRepository.items[0].status).toBe('E')
+    expect(inMemoryOrdersRepository.items[0].status).toBe('Entregue')
   })
 
   it('should not be able to mark an order as delivered without authorization', async () => {
