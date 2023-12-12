@@ -4,6 +4,9 @@ import {
   Administrator,
   AdministratorProps,
 } from '@/domain/logistic/enterprise/entities/administrator'
+import { PrismaService } from '@/infra/database/prisma/prisma.service'
+import { Injectable } from '@nestjs/common'
+import { PrismaAdministratorMapper } from '@/infra/database/prisma/mappers/prisma-administrator-mapper'
 
 export function makeAdministrator(
   override: Partial<AdministratorProps> = {},
@@ -23,4 +26,21 @@ export function makeAdministrator(
   )
 
   return administrator
+}
+
+@Injectable()
+export class AdministratorFactory {
+  constructor(private prisma: PrismaService) {}
+
+  async makePrismaAdministrator(
+    data: Partial<AdministratorProps> = {},
+  ): Promise<Administrator> {
+    const administrator = makeAdministrator(data)
+
+    await this.prisma.user.create({
+      data: PrismaAdministratorMapper.toPrisma(administrator),
+    })
+
+    return administrator
+  }
 }

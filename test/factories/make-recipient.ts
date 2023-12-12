@@ -4,6 +4,9 @@ import {
   Recipient,
   RecipientProps,
 } from '@/domain/logistic/enterprise/entities/recipient'
+import { PrismaService } from '@/infra/database/prisma/prisma.service'
+import { Injectable } from '@nestjs/common'
+import { PrismaRecipientMapper } from '@/infra/database/prisma/mappers/prisma-recipient-mapper'
 
 export function makeRecipient(
   override: Partial<RecipientProps> = {},
@@ -27,4 +30,21 @@ export function makeRecipient(
   )
 
   return recipient
+}
+
+@Injectable()
+export class RecipientFactory {
+  constructor(private prisma: PrismaService) {}
+
+  async makePrismaRecipient(
+    data: Partial<RecipientProps> = {},
+  ): Promise<Recipient> {
+    const recipient = makeRecipient(data)
+
+    await this.prisma.recipient.create({
+      data: PrismaRecipientMapper.toPrisma(recipient),
+    })
+
+    return recipient
+  }
 }
