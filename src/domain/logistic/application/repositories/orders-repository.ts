@@ -6,18 +6,20 @@ export type FindManyNearbyParams = PaginationParams & {
   longitude: number
 }
 
-export interface OrdersRepository {
-  findById(id: string): Promise<Order | null>
-  findMany(params: PaginationParams): Promise<Order[]>
-  findManyByDeliverymanId(
+export abstract class OrdersRepository {
+  abstract findById(id: string): Promise<Order | null>
+  abstract findMany(params: PaginationParams): Promise<Order[]>
+  abstract findManyByDeliverymanId(
     id: string,
     params: PaginationParams,
   ): Promise<Order[]>
-  findManyByDeliverymanAndNearby(
+
+  abstract findManyByDeliverymanAndNearby(
     id: string,
     params: FindManyNearbyParams,
   ): Promise<Order[]>
-  create(order: Order): Promise<void>
-  save(order: Order): Promise<void>
-  delete(order: Order): Promise<void>
+
+  abstract create(order: Order): Promise<void>
+  abstract save(order: Order): Promise<void>
+  abstract delete(order: Order): Promise<void>
 }

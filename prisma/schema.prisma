@@ -22,6 +22,7 @@ model User {
   email     String   @unique
   cpf       String   @unique
   password  String
+  phone     String
   createdAt DateTime @default(now()) @map("created_at")
   role      Role?    @default(DELIVERYMAN)
   orders    Order[]
@@ -38,7 +39,7 @@ model Recipient {
   number    String
   city      String
   zipcode   String
-  state     Int
+  state     String
   latitude  Decimal
   longitude Decimal
   createdAt DateTime  @default(now()) @map("created_at")
