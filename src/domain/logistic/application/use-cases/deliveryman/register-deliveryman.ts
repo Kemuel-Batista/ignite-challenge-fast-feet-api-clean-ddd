@@ -5,6 +5,7 @@ import { HashGenerator } from '@/domain/logistic/application/cryptography/hash-g
 import { DeliverymanAlreadyExistsError } from './errors/deliveryman-already-exists-error'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 import { Either, failure, success } from '@/core/either'
+import { Injectable } from '@nestjs/common'
 
 interface RegisterDeliverymanUseCaseRequest {
   adminId: string
@@ -23,6 +24,7 @@ type RegisterDeliverymanUseCaseResponse = Either<
   }
 >
 
+@Injectable()
 export class RegisterDeliverymanUseCase {
   constructor(
     private administratorsRepository: AdministratorsRepository,

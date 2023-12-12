@@ -3,6 +3,7 @@ import { AdministratorsRepository } from '@/domain/logistic/application/reposito
 import { HashGenerator } from '@/domain/logistic/application/cryptography/hash-generator'
 import { Either, failure, success } from '@/core/either'
 import { AdministratorAlreadyExistsError } from './errors/administrator-already-exists-error'
+import { Injectable } from '@nestjs/common'
 
 interface RegisterAdministratorUseCaseRequest {
   name: string
@@ -20,6 +21,7 @@ type RegisterAdministratorUseCaseResponse = Either<
   }
 >
 
+@Injectable()
 export class RegisterAdministratorUseCase {
   constructor(
     private administratorsRepository: AdministratorsRepository,
