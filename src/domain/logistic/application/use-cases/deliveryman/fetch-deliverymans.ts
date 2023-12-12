@@ -3,6 +3,7 @@ import { Deliveryman } from '@/domain/logistic/enterprise/entities/deliveryman'
 import { DeliverymansRepository } from '../../repositories/deliverymans-repository'
 import { AdministratorsRepository } from '../../repositories/administrators-repository'
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error'
+import { Injectable } from '@nestjs/common'
 
 interface FetchDeliverymansUseCaseRequest {
   adminId: string
@@ -16,6 +17,7 @@ type FetchDeliverymansUseCaseResponse = Either<
   }
 >
 
+@Injectable()
 export class FetchDeliverymansUseCase {
   constructor(
     private administratorsRepository: AdministratorsRepository,

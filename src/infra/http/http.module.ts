@@ -18,6 +18,8 @@ import { DeleteDeliverymanController } from './controllers/deliverymans/delete-d
 import { DeleteDeliverymanUseCase } from '@/domain/logistic/application/use-cases/deliveryman/delete-deliveryman'
 import { EditDeliverymanController } from './controllers/deliverymans/edit-deliveryman.controller'
 import { EditDeliverymanUseCase } from '@/domain/logistic/application/use-cases/deliveryman/edit-deliveryman'
+import { FetchDeliverymansController } from './controllers/deliverymans/fetch-deliverymans.controller'
+import { FetchDeliverymansUseCase } from '@/domain/logistic/application/use-cases/deliveryman/fetch-deliverymans'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, StorageModule, AuthModule],
@@ -29,6 +31,7 @@ import { EditDeliverymanUseCase } from '@/domain/logistic/application/use-cases/
     ChangePasswordDeliverymanController,
     DeleteDeliverymanController,
     EditDeliverymanController,
+    FetchDeliverymansController,
   ],
   providers: [
     AuthenticateAdministratorUseCase,
@@ -38,6 +41,7 @@ import { EditDeliverymanUseCase } from '@/domain/logistic/application/use-cases/
     ChangePasswordDeliverymanUseCase,
     DeleteDeliverymanUseCase,
     EditDeliverymanUseCase,
+    FetchDeliverymansUseCase,
   ],
 })
 export class HttpModule {}
