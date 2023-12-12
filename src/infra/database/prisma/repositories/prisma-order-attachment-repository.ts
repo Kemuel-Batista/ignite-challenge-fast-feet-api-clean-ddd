@@ -2,7 +2,9 @@ import { OrderAttachmentRepository } from '@/domain/logistic/application/reposit
 import { OrderAttachment } from '@/domain/logistic/enterprise/entities/order-attachment'
 import { PrismaService } from '../prisma.service'
 import { PrismaOrderAttachmentMapper } from '../mappers/prisma-order-attachment-mapper'
+import { Injectable } from '@nestjs/common'
 
+@Injectable()
 export class PrismaOrderAttachmentRepository
   implements OrderAttachmentRepository
 {

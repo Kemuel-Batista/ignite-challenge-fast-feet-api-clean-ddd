@@ -2,7 +2,9 @@ import { AdministratorsRepository } from '@/domain/logistic/application/reposito
 import { Administrator } from '@/domain/logistic/enterprise/entities/Administrator'
 import { PrismaService } from '../prisma.service'
 import { PrismaAdministratorMapper } from '../mappers/prisma-administrator-mapper'
+import { Injectable } from '@nestjs/common'
 
+@Injectable()
 export class PrismaAdministratorsRepository
   implements AdministratorsRepository
 {

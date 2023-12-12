@@ -53,7 +53,7 @@ model Recipient {
 
 model Order {
   id           String    @id @default(uuid())
-  userId       String?   @map("user_id")
+  userId       String    @map("user_id")
   recipientId  String    @map("recipient_id")
   attachmentId String?   @map("attachment_id")
   name         String
@@ -65,7 +65,7 @@ model Order {
   retiredAt    DateTime? @map("retired_at")
   postedAt     DateTime? @map("posted_at")
 
-  user       User?       @relation(fields: [userId], references: [id])
+  user       User        @relation(fields: [userId], references: [id])
   recipient  Recipient   @relation(fields: [recipientId], references: [id])
   attachment Attachment? @relation(fields: [attachmentId], references: [id])
 

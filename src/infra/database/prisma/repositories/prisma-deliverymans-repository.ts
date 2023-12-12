@@ -3,7 +3,9 @@ import { Deliveryman } from '@/domain/logistic/enterprise/entities/Deliveryman'
 import { PrismaService } from '../prisma.service'
 import { PrismaDeliverymanMapper } from '../mappers/prisma-deliveryman-mapper'
 import { PaginationParams } from '@/core/repositories/paginations-params'
+import { Injectable } from '@nestjs/common'
 
+@Injectable()
 export class PrismaDeliverymansRepository implements DeliverymansRepository {
   constructor(private prisma: PrismaService) {}
 

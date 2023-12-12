@@ -6,7 +6,7 @@ import { ChangeStatusEvent } from '../events/change-status-events'
 
 export interface OrderProps {
   recipientId: UniqueEntityID
-  deliverymanId: UniqueEntityID | null
+  deliverymanId: UniqueEntityID
   name: string
   status: string
   photo?: OrderAttachment | null
@@ -27,7 +27,7 @@ export class Order extends AggregateRoot<OrderProps> {
     return this.props.deliverymanId
   }
 
-  set deliverymanId(id: UniqueEntityID | null) {
+  set deliverymanId(id: UniqueEntityID) {
     this.props.deliverymanId = id
     this.touch()
   }

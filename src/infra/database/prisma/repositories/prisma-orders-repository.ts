@@ -10,7 +10,9 @@ import { PrismaService } from '../prisma.service'
 import { Recipient as PrismaRecipient } from '@prisma/client'
 import { OrderAttachmentRepository } from '@/domain/logistic/application/repositories/order-attachment-repository'
 import { DomainEvents } from '@/core/events/domain-events'
+import { Injectable } from '@nestjs/common'
 
+@Injectable()
 export class PrismaOrdersRepository implements OrdersRepository {
   constructor(
     private prisma: PrismaService,
