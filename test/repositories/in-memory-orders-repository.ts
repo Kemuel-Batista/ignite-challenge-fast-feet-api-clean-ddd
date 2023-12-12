@@ -76,6 +76,12 @@ export class InMemoryOrdersRepository implements OrdersRepository {
           },
         )
 
+        if (!order.deliverymanId === null) {
+          throw new Error(
+            `Deliveryman with ID "${order.deliverymanId.toString()}" does not exist`,
+          )
+        }
+
         return distance < 10 && order.deliverymanId.toString() === id
       })
 
