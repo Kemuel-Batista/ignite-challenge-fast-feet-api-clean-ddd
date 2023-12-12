@@ -4,6 +4,7 @@ import { DeliverymansRepository } from '../../repositories/deliverymans-reposito
 import { DeliverymanAlreadyExistsError } from './errors/deliveryman-already-exists-error'
 import { Deliveryman } from '@/domain/logistic/enterprise/entities/deliveryman'
 import { Either, failure, success } from '@/core/either'
+import { Injectable } from '@nestjs/common'
 
 interface EditDeliverymanUseCaseRequest {
   adminId: string
@@ -22,6 +23,7 @@ type EditDeliverymanUseCaseResponse = Either<
   }
 >
 
+@Injectable()
 export class EditDeliverymanUseCase {
   constructor(
     private administratorsRepository: AdministratorsRepository,

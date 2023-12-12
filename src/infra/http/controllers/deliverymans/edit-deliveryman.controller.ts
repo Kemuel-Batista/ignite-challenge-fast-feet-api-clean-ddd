@@ -4,49 +4,48 @@ import {
   ConflictException,
   Controller,
   HttpCode,
-  MethodNotAllowedException,
-  Post,
+  Put,
 } from '@nestjs/common'
 import { z } from 'zod'
 import { ZodValidationPipe } from '../../pipes/zod-validation-pipe'
-import { RegisterDeliverymanUseCase } from '@/domain/logistic/application/use-cases/deliveryman/register-deliveryman'
+import { EditDeliverymanUseCase } from '@/domain/logistic/application/use-cases/deliveryman/edit-deliveryman'
 import { DeliverymanAlreadyExistsError } from '@/domain/logistic/application/use-cases/deliveryman/errors/deliveryman-already-exists-error'
 import { CurrentUser } from '@/infra/auth/current-user-decorator'
 import { UserPayload } from '@/infra/auth/jwt.strategy'
-import { NotAllowedError } from '@/core/errors/errors/not-allowed-error'
+import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 
-const registerUserBodySchema = z.object({
+const editUserBodySchema = z.object({
+  deliverymanId: z.string().uuid(),
   name: z.string(),
+  cpf: z.string(),
   lastname: z.string(),
   email: z.string().email(),
-  cpf: z.string(),
   phone: z.string(),
-  password: z.string().min(6),
 })
 
-const bodyValidationPipe = new ZodValidationPipe(registerUserBodySchema)
+const bodyValidationPipe = new ZodValidationPipe(editUserBodySchema)
 
-type RegisterUserBodySchema = z.infer<typeof registerUserBodySchema>
+type EditUserBodySchema = z.infer<typeof editUserBodySchema>
 
 @Controller('/deliveryman')
-export class RegisterDeliverymanController {
-  constructor(private registerDeliveryman: RegisterDeliverymanUseCase) {}
+export class EditDeliverymanController {
+  constructor(private editDeliveryman: EditDeliverymanUseCase) {}
 
-  @Post()
-  @HttpCode(201)
+  @Put()
+  @HttpCode(204)
   async create(
     @CurrentUser() user: UserPayload,
-    @Body(bodyValidationPipe) body: RegisterUserBodySchema,
+    @Body(bodyValidationPipe) body: EditUserBodySchema,
   ) {
     const { sub: adminId } = user
-    const { name, lastname, email, password, cpf, phone } = body
+    const { deliverymanId, name, lastname, email, cpf, phone } = body
 
-    const result = await this.registerDeliveryman.execute({
+    const result = await this.editDeliveryman.execute({
       adminId,
+      deliverymanId,
       name,
       lastname,
       email,
-      password,
       cpf,
       phone,
     })
@@ -55,8 +54,8 @@ export class RegisterDeliverymanController {
       const error = result.value
 
       switch (error.constructor) {
-        case NotAllowedError:
-          throw new MethodNotAllowedException(error.message)
+        case ResourceNotFoundError:
+          throw new BadRequestException(error.message)
         case DeliverymanAlreadyExistsError:
           throw new ConflictException(error.message)
         default:

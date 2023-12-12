@@ -2,10 +2,10 @@ import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-e
 import { HashGenerator } from '../../cryptography/hash-generator'
 import { AdministratorsRepository } from '../../repositories/administrators-repository'
 import { DeliverymansRepository } from '../../repositories/deliverymans-repository'
-import { DeliverymanAlreadyExistsError } from './errors/deliveryman-already-exists-error'
 import { Deliveryman } from '@/domain/logistic/enterprise/entities/deliveryman'
 import { Either, failure, success } from '@/core/either'
 import { PasswordsNotEqualsError } from './errors/passwords-not-equals-error'
+import { Injectable } from '@nestjs/common'
 
 interface ChangePasswordDeliverymanUseCaseRequest {
   adminId: string
@@ -15,14 +15,13 @@ interface ChangePasswordDeliverymanUseCaseRequest {
 }
 
 type ChangePasswordDeliverymanUseCaseResponse = Either<
-  | ResourceNotFoundError
-  | DeliverymanAlreadyExistsError
-  | PasswordsNotEqualsError,
+  ResourceNotFoundError | PasswordsNotEqualsError,
   {
     deliveryman: Deliveryman
   }
 >
 
+@Injectable()
 export class ChangePasswordDeliverymanUseCase {
   constructor(
     private administratorsRepository: AdministratorsRepository,

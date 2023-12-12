@@ -1,19 +1,17 @@
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 import { AdministratorsRepository } from '../../repositories/administrators-repository'
 import { DeliverymansRepository } from '../../repositories/deliverymans-repository'
-import { DeliverymanAlreadyExistsError } from './errors/deliveryman-already-exists-error'
 import { Either, failure, success } from '@/core/either'
+import { Injectable } from '@nestjs/common'
 
 interface DeleteDeliverymanUseCaseRequest {
   adminId: string
   deliverymanId: string
 }
 
-type DeleteDeliverymanUseCaseResponse = Either<
-  ResourceNotFoundError | DeliverymanAlreadyExistsError,
-  null
->
+type DeleteDeliverymanUseCaseResponse = Either<ResourceNotFoundError, null>
 
+@Injectable()
 export class DeleteDeliverymanUseCase {
   constructor(
     private administratorsRepository: AdministratorsRepository,

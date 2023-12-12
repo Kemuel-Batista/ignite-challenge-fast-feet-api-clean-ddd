@@ -12,6 +12,12 @@ import { RegisterDeliverymanController } from './controllers/deliverymans/regist
 import { RegisterDeliverymanUseCase } from '@/domain/logistic/application/use-cases/deliveryman/register-deliveryman'
 import { AuthenticateDeliverymanController } from './controllers/deliverymans/authenticate-deliveryman.controller'
 import { AuthenticateDeliverymanUseCase } from '@/domain/logistic/application/use-cases/deliveryman/authenticate-deliveryman'
+import { ChangePasswordDeliverymanController } from './controllers/deliverymans/change-password-deliveryman.controller'
+import { ChangePasswordDeliverymanUseCase } from '@/domain/logistic/application/use-cases/deliveryman/change-password-deliveryman'
+import { DeleteDeliverymanController } from './controllers/deliverymans/delete-deliveryman.controller'
+import { DeleteDeliverymanUseCase } from '@/domain/logistic/application/use-cases/deliveryman/delete-deliveryman'
+import { EditDeliverymanController } from './controllers/deliverymans/edit-deliveryman.controller'
+import { EditDeliverymanUseCase } from '@/domain/logistic/application/use-cases/deliveryman/edit-deliveryman'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, StorageModule, AuthModule],
@@ -20,12 +26,18 @@ import { AuthenticateDeliverymanUseCase } from '@/domain/logistic/application/us
     RegisterAdministratorController,
     RegisterDeliverymanController,
     AuthenticateDeliverymanController,
+    ChangePasswordDeliverymanController,
+    DeleteDeliverymanController,
+    EditDeliverymanController,
   ],
   providers: [
     AuthenticateAdministratorUseCase,
     RegisterAdministratorUseCase,
     RegisterDeliverymanUseCase,
     AuthenticateDeliverymanUseCase,
+    ChangePasswordDeliverymanUseCase,
+    DeleteDeliverymanUseCase,
+    EditDeliverymanUseCase,
   ],
 })
 export class HttpModule {}
