@@ -3,6 +3,7 @@ import { AdministratorsRepository } from '../../repositories/administrators-repo
 import { RecipientsRepository } from '../../repositories/recipients-repository'
 import { RecipientAlreadyExistsError } from './errors/recipient-already-exists-error'
 import { Either, failure, success } from '@/core/either'
+import { Injectable } from '@nestjs/common'
 
 interface DeleteRecipientUseCaseRequest {
   adminId: string
@@ -14,6 +15,7 @@ type DeleteRecipientUseCaseResponse = Either<
   null
 >
 
+@Injectable()
 export class DeleteRecipientUseCase {
   constructor(
     private administratorsRepository: AdministratorsRepository,

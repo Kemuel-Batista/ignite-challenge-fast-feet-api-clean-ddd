@@ -4,6 +4,7 @@ import { RecipientsRepository } from '@/domain/logistic/application/repositories
 import { RecipientAlreadyExistsError } from './errors/recipient-already-exists-error'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 import { Either, failure, success } from '@/core/either'
+import { Injectable } from '@nestjs/common'
 
 interface CreateRecipientUseCaseRequest {
   adminId: string
@@ -26,6 +27,7 @@ type CreateRecipientUseCaseResponse = Either<
   }
 >
 
+@Injectable()
 export class CreateRecipientUseCase {
   constructor(
     private administratorsRepository: AdministratorsRepository,

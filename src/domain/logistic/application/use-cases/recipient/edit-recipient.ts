@@ -4,6 +4,7 @@ import { RecipientsRepository } from '../../repositories/recipients-repository'
 import { RecipientAlreadyExistsError } from './errors/recipient-already-exists-error'
 import { Recipient } from '@/domain/logistic/enterprise/entities/recipient'
 import { Either, failure, success } from '@/core/either'
+import { Injectable } from '@nestjs/common'
 
 interface EditRecipientUseCaseRequest {
   adminId: string
@@ -27,6 +28,7 @@ type EditRecipientUseCaseResponse = Either<
   }
 >
 
+@Injectable()
 export class EditRecipientUseCase {
   constructor(
     private administratorsRepository: AdministratorsRepository,

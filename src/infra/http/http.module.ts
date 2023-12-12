@@ -20,6 +20,14 @@ import { EditDeliverymanController } from './controllers/deliverymans/edit-deliv
 import { EditDeliverymanUseCase } from '@/domain/logistic/application/use-cases/deliveryman/edit-deliveryman'
 import { FetchDeliverymansController } from './controllers/deliverymans/fetch-deliverymans.controller'
 import { FetchDeliverymansUseCase } from '@/domain/logistic/application/use-cases/deliveryman/fetch-deliverymans'
+import { CreateRecipientController } from './controllers/recipients/create-recipient.controller'
+import { CreateRecipientUseCase } from '@/domain/logistic/application/use-cases/recipient/create-recipient'
+import { EditRecipientController } from './controllers/recipients/edit-recipient.controller'
+import { EditRecipientUseCase } from '@/domain/logistic/application/use-cases/recipient/edit-recipient'
+import { DeleteRecipientController } from './controllers/recipients/delete-recipient.controller'
+import { DeleteRecipientUseCase } from '@/domain/logistic/application/use-cases/recipient/delete-recipient'
+import { FetchRecipientsController } from './controllers/recipients/fetch-recipients.controller'
+import { FetchRecipientsUseCase } from '@/domain/logistic/application/use-cases/recipient/fetch-recipients'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, StorageModule, AuthModule],
@@ -32,6 +40,10 @@ import { FetchDeliverymansUseCase } from '@/domain/logistic/application/use-case
     DeleteDeliverymanController,
     EditDeliverymanController,
     FetchDeliverymansController,
+    CreateRecipientController,
+    EditRecipientController,
+    DeleteRecipientController,
+    FetchRecipientsController,
   ],
   providers: [
     AuthenticateAdministratorUseCase,
@@ -42,6 +54,10 @@ import { FetchDeliverymansUseCase } from '@/domain/logistic/application/use-case
     DeleteDeliverymanUseCase,
     EditDeliverymanUseCase,
     FetchDeliverymansUseCase,
+    CreateRecipientUseCase,
+    EditRecipientUseCase,
+    DeleteRecipientUseCase,
+    FetchRecipientsUseCase,
   ],
 })
 export class HttpModule {}
