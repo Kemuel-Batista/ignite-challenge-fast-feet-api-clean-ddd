@@ -3,6 +3,7 @@ import { AdministratorsRepository } from '../../repositories/administrators-repo
 import { OrdersRepository } from '../../repositories/orders-repository'
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
+import { Injectable } from '@nestjs/common'
 
 interface OrderAvailableForPickupUseCaseRequest {
   adminId: string
@@ -14,6 +15,7 @@ type OrderAvailableForPickupUseCaseResponse = Either<
   null
 >
 
+@Injectable()
 export class OrderAvailableForPickupUseCase {
   constructor(
     private administratorsRepository: AdministratorsRepository,

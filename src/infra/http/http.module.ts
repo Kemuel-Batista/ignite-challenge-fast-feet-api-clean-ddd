@@ -36,6 +36,22 @@ import { DeleteOrderController } from './controllers/orders/delete-order.control
 import { DeleteOrderUseCase } from '@/domain/logistic/application/use-cases/order/delete-order'
 import { FetchOrdersController } from './controllers/orders/fetch-orders.controller'
 import { FetchOrdersUseCase } from '@/domain/logistic/application/use-cases/order/fetch-orders'
+import { OrderAvailableForPickupController } from './controllers/administrators/order-available-for-pickup.controller'
+import { OrderAvailableForPickupUseCase } from '@/domain/logistic/application/use-cases/administrators/order-available-for-pickup'
+import { FetchNearbyOrdersController } from './controllers/deliverymans/fetch-nearby-orders.controller'
+import { FetchNearbyOrdersUseCase } from '@/domain/logistic/application/use-cases/deliveryman/fetch-nearby-orders'
+import { FetchOrdersDeliverymansController } from './controllers/deliverymans/fetch-orders-deliveryman.controller'
+import { FetchOrdersDeliverymansUseCase } from '@/domain/logistic/application/use-cases/deliveryman/fetch-orders-deliverymans'
+import { UploadAttachmentController } from './controllers/upload/upload-attachment.controller'
+import { UploadAndCreateAttachmentUseCase } from '@/domain/logistic/application/use-cases/attachment/upload-and-create-attachment'
+import { MarkOrderDeliveredController } from './controllers/deliverymans/mark-order-delivered.controller'
+import { MarkOrderDeliveredUseCase } from '@/domain/logistic/application/use-cases/deliveryman/mark-order-delivered'
+import { MarkOrderReturnedController } from './controllers/deliverymans/mark-order-returned.controller'
+import { MarkOrderReturnedUseCase } from '@/domain/logistic/application/use-cases/deliveryman/mark-order-returned'
+import { PickUpOrderForDeliveryController } from './controllers/deliverymans/pick-up-order-for-delivery.controller'
+import { PickUpOrderForDeliveryUseCase } from '@/domain/logistic/application/use-cases/deliveryman/pick-up-order-for-delivery'
+import { ReadNotificationController } from './controllers/notifications/read-notification.controller'
+import { ReadNotificationUseCase } from '@/domain/notification/application/use-cases/read-notification'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, StorageModule, AuthModule],
@@ -56,6 +72,14 @@ import { FetchOrdersUseCase } from '@/domain/logistic/application/use-cases/orde
     EditOrderController,
     DeleteOrderController,
     FetchOrdersController,
+    OrderAvailableForPickupController,
+    FetchNearbyOrdersController,
+    FetchOrdersDeliverymansController,
+    UploadAttachmentController,
+    MarkOrderDeliveredController,
+    MarkOrderReturnedController,
+    PickUpOrderForDeliveryController,
+    ReadNotificationController,
   ],
   providers: [
     AuthenticateAdministratorUseCase,
@@ -74,6 +98,14 @@ import { FetchOrdersUseCase } from '@/domain/logistic/application/use-cases/orde
     EditOrderUseCase,
     DeleteOrderUseCase,
     FetchOrdersUseCase,
+    OrderAvailableForPickupUseCase,
+    FetchNearbyOrdersUseCase,
+    FetchOrdersDeliverymansUseCase,
+    UploadAndCreateAttachmentUseCase,
+    MarkOrderDeliveredUseCase,
+    MarkOrderReturnedUseCase,
+    PickUpOrderForDeliveryUseCase,
+    ReadNotificationUseCase,
   ],
 })
 export class HttpModule {}

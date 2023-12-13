@@ -3,6 +3,7 @@ import { DeliverymansRepository } from '../../repositories/deliverymans-reposito
 import { OrdersRepository } from '../../repositories/orders-repository'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 import { Order } from '@/domain/logistic/enterprise/entities/order'
+import { Injectable } from '@nestjs/common'
 
 interface FetchOrdersDeliverymansUseCaseRequest {
   deliverymanId: string
@@ -16,6 +17,7 @@ type FetchOrdersDeliverymansUseCaseResponse = Either<
   }
 >
 
+@Injectable()
 export class FetchOrdersDeliverymansUseCase {
   constructor(
     private deliverymansRepository: DeliverymansRepository,

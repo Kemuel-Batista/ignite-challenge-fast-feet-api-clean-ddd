@@ -124,6 +124,8 @@ export class PrismaOrdersRepository implements OrdersRepository {
 
     await this.cache.delete(`order:${data.id}:details`)
 
+    DomainEvents.dispatchEventsForAggregate(order.id)
+
     if (
       order.status === 'Entregue' &&
       order.photo !== null &&
@@ -131,8 +133,6 @@ export class PrismaOrdersRepository implements OrdersRepository {
     ) {
       await this.orderAttachmentRepository.create(order.photo)
     }
-
-    DomainEvents.dispatchEventsForAggregate(order.id)
   }
 
   async delete(order: Order): Promise<void> {

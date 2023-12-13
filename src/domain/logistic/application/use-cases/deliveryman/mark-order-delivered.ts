@@ -5,6 +5,7 @@ import { NotAllowedError } from '@/core/errors/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 import { OrderAttachment } from '@/domain/logistic/enterprise/entities/order-attachment'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import { Injectable } from '@nestjs/common'
 
 interface MarkOrderDeliveredUseCaseRequest {
   deliverymanId: string
@@ -17,6 +18,7 @@ type MarkOrderDeliveredUseCaseResponse = Either<
   null
 >
 
+@Injectable()
 export class MarkOrderDeliveredUseCase {
   constructor(
     private deliverymansRepository: DeliverymansRepository,
