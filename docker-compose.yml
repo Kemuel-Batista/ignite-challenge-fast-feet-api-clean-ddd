@@ -10,9 +10,6 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: docker
       POSTGRES_DB: nest-fastfeet
-      PGDATA: /data/postgres
-    volumes:
-      - ./data/pg:/data/postgres
 
   cache:
     container_name: nest-fastfeet-cache

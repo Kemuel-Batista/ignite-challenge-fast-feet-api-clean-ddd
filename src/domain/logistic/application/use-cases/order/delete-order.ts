@@ -3,6 +3,7 @@ import { AdministratorsRepository } from '../../repositories/administrators-repo
 import { OrdersRepository } from '../../repositories/orders-repository'
 import { Either, failure, success } from '@/core/either'
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error'
+import { Injectable } from '@nestjs/common'
 
 interface DeleteOrderUseCaseRequest {
   adminId: string
@@ -14,6 +15,7 @@ type DeleteOrderUseCaseResponse = Either<
   null
 >
 
+@Injectable()
 export class DeleteOrderUseCase {
   constructor(
     private administratorsRepository: AdministratorsRepository,

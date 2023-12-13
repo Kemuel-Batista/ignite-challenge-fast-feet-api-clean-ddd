@@ -8,6 +8,7 @@ import { OrdersRepository } from '../../repositories/orders-repository'
 import { AdministratorsRepository } from '../../repositories/administrators-repository'
 import { DeliverymansRepository } from '../../repositories/deliverymans-repository'
 import { RecipientsRepository } from '../../repositories/recipients-repository'
+import { Injectable } from '@nestjs/common'
 
 interface EditOrderUseCaseRequest {
   adminId: string
@@ -24,6 +25,7 @@ type EditOrderUseCaseResponse = Either<
   }
 >
 
+@Injectable()
 export class EditOrderUseCase {
   constructor(
     private ordersRepository: OrdersRepository,
@@ -65,6 +67,8 @@ export class EditOrderUseCase {
     }
 
     order.name = name
+    order.deliverymanId = deliveryman.id
+    order.recipientId = recipient.id
 
     await this.ordersRepository.save(order)
 

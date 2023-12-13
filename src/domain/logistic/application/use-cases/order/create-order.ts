@@ -8,6 +8,7 @@ import { RecipientsRepository } from '../../repositories/recipients-repository'
 
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error'
+import { Injectable } from '@nestjs/common'
 
 interface CreateOrderUseCaseRequest {
   adminId: string
@@ -23,6 +24,7 @@ type CreateOrderUseCaseResponse = Either<
   }
 >
 
+@Injectable()
 export class CreateOrderUseCase {
   constructor(
     private ordersRepository: OrdersRepository,
